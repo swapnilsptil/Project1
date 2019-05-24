@@ -18,6 +18,7 @@ async function authenticate({ username, password }) {
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({ sub: user.id }, config.secret);
+        // console.log('user Details', ...userWithoutHash);
         return {
             ...userWithoutHash,
             token
@@ -26,11 +27,11 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return await User.find().select('-hash');
+    return await User.find();
 }
 
 async function getById(id) {
-    return await User.findById(id).select('-hash');
+    return await User.findById(id);
 }
 
 async function create(userParam) {
