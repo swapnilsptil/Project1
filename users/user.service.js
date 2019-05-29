@@ -10,7 +10,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    updateAddress
 };
 
 async function authenticate({ username, password }) {
@@ -67,6 +68,20 @@ async function update(id, userParam) {
 
     // copy userParam properties to user
     Object.assign(user, userParam);
+
+    await user.save();
+}
+
+async function updateAddress(id, userParam) {
+    const user = await User.findById(id);
+
+    if (!user) throw 'User not found';
+    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
+        throw 'Username "' + userParam.username + '" is already taken';
+    }
+
+    // copy userParam properties to user
+    Object.assign(user.address, userParam.address);
 
     await user.save();
 }

@@ -10,6 +10,8 @@ router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.put('/:id', update);
 router.delete('/:id', _delete);
+router.get('/address/:id', getAddress);
+router.post('/address/:id', updateAddress);
 
 module.exports = router;
 
@@ -40,6 +42,18 @@ function getCurrent(req, res, next) {
 function getById(req, res, next) {
     userService.getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function getAddress(req, res, next){
+    userService.getById(req.params.id)
+        .then(user => { user ? res.json(user.address) : res.sendStatus(404)})
+        .catch(err => next(err));
+}
+
+function updateAddress(req, res, next) {
+    userService.updateAddress(req.params.id, req.body)
+        .then(() => res.json({}))
         .catch(err => next(err));
 }
 
