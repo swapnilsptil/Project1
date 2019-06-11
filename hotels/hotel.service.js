@@ -9,7 +9,8 @@ module.exports = {
     getAll,
     create,
     updateMenu,
-    findHotelByMenu
+    findHotelByMenu,
+    delete: _delete
 }
 
 async function create(userParam) {
@@ -61,5 +62,9 @@ async function findHotelByMenu(req) {
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);
+}
+
+async function _delete(id) {
+    await Hotel.findByIdAndRemove(id);
 }
 
