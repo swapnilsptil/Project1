@@ -8,6 +8,7 @@ const Hotel = db.Hotel;
 module.exports = {
     getAll,
     create,
+    getHotelById,
     updateMenu,
     findHotelByMenu,
     delete: _delete
@@ -31,7 +32,6 @@ async function getAll() {
     return await Hotel.find();
 }
 
-
 async function updateMenu(id, userParam) {
     const hotel = await Hotel.findById(id);
 
@@ -53,12 +53,22 @@ async function updateMenu(id, userParam) {
 }
 
 async function findHotelByMenu(req) {
-    // const hotel = await Hotel.find( { ratings: { $all: [ "value", "count", "book" ] } } );
-    // return await Hotel.find({'menu.' : 4});
-    return await Hotel.find({menu: {$elemMatch: {mealType : req.mealType}}});
+   
+    // ToDo : Return only Hotel List without Menu parameter
+    return await Hotel.find({menu: {$elemMatch: {mealType : req.mealType}}}, {"menu":0});
     
     // console.log(hotel);
 }
+
+async function getHotelById(id) {
+    return await Hotel.findById(id, {"menu":1});
+}
+
+/*/ ToDO : 
+* Create seperate API to return only Hotel Menu by Id : 
+* Add Single menu in Hotel 
+*/
+
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);

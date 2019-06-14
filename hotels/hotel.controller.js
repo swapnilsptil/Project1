@@ -8,7 +8,8 @@ const hotelService = require('./hotel.service');
 router.post('/register', register);
 router.get('/', getAll);
 router.post('/updateMenu', updateMenu);
-router.post('/findHotelByMenu/:id', findHotelByMenu);
+router.post('/findHotelByMenu', findHotelByMenu);
+router.get('/getHotelMenu/:id', getHotelMenu);
 // router.get('/current', getCurrent);
 // router.get('/:id', getById);
 // router.put('/:id', update);
@@ -42,6 +43,12 @@ function updateMenu(req, res, next) {
 
 function findHotelByMenu(req, res, next) {
     hotelService.findHotelByMenu(req.body)
+        .then(hotel => {hotel ? res.json(hotel) : res.sendStatus(404)})
+        .catch(err => next(err));
+}
+
+function getHotelMenu(req, res, next){
+    hotelService.getHotelById(req.params.id)
         .then(hotel => {hotel ? res.json(hotel) : res.sendStatus(404)})
         .catch(err => next(err));
 }

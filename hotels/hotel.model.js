@@ -41,7 +41,9 @@ const menuItemSchema = new Schema({
     itemType : {type: String, required : true},
     price : {type: Number, required : true},
     name : {type : String, required : true},
-    discount : {type : Number}
+    discount : {type : Number},
+    imageUrl : {type : String},
+    description : {type: String}
 })
 
 const mealType = new Schema({
